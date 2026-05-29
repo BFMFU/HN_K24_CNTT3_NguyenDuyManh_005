@@ -48,12 +48,12 @@ public class CarController {
 	public ResponseEntity<ResponseCarDTO>  updatePut(@PathVariable Long id, @RequestBody @Valid RequestCarDTO car) {
 		Car existCar = carService.getCarById(id);
 		ResponseCarDTO responseCarDTO = new ResponseCarDTO();
-		responseCarDTO.setId(id);
-		responseCarDTO.setModel(car.getModel());
-		responseCarDTO.setBrand(car.getBrand());
-		responseCarDTO.setPrice(car.getPrice());
-		responseCarDTO.setStatus(car.getStatus());
-		responseCarDTO.setIsDeleted(car.getIsDeleted());
+		responseCarDTO.setId(existCar.getId());
+		responseCarDTO.setModel(car.getModel() != null ? car.getModel() : existCar.getModel());
+		responseCarDTO.setBrand(car.getBrand() != null ? car.getBrand() : existCar.getBrand());
+		responseCarDTO.setPrice(car.getPrice() != null ? car.getPrice() : existCar.getPrice());
+		responseCarDTO.setStatus(car.getStatus() != null ? car.getStatus() : existCar.getStatus());
+		responseCarDTO.setIsDeleted(car.getIsDeleted() != null ? car.getIsDeleted() : existCar.getIsDeleted());
 		carService.updateCar(id, responseCarDTO);
 		return ResponseEntity.ok(responseCarDTO);
 	}

@@ -4,12 +4,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.JoinPoint;
 
-import java.util.logging.Logger;
 @Aspect
 @Slf4j
 public class LoggingAspect {
-	private final Logger LOGGER = Logger.getLogger(LoggingAspect.class.getName());
-	@Pointcut()
-	public void makeAnAspect(){}
+	@Pointcut("execution(* app.product.hackathon.service.impl.CarServiceImpl.*(..))")
+	public void serviceLayerPointcut() {}
+	
+	@Before("serviceLayerPointcut()")
+	public void logBeforeServiceCall(JoinPoint joinPoint) {
+		String methodName = joinPoint.getSignature().getName();
+		log.info("Calling method: {}", methodName);
+	}
 }
